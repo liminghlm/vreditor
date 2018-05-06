@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="fuwu.mapper.ViewRelationMapper">
+    <resultMap id="viewRelation" type="fuwu.po.ViewRelation">
+        <result column="id" property="id"/>
+        <result column="view_id" property="viewId"/>
+        <result column="relation_view_id" property="relationViewId"/>
+        <result column="view_relation" property="viewRelation"/>
+        <result column="view_interaction_position" property="viewInteractionPosition"/>
+
+
+    </resultMap>
+
+    <select id="getViewRelationListByViewId" resultMap="viewRelation">
+        SELECT *
+        FROM view_relation
+        WHERE
+        view_id=#{viewId}
+
+    </select>
+</mapper>
