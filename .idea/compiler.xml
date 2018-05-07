@@ -9,5 +9,8 @@
         <module name="VREditor" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="VREditor" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
