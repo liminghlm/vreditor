@@ -1,7 +1,7 @@
 package fuwu.commen;
 
 
-import fuwu.em.ViewStatusEnum;
+import fuwu.em.GlobalErrorEnum;
 
 /**
  * Created by LJW on 2018/4/13.16:22
@@ -57,8 +57,8 @@ public class JsonResult {
         this.msg = msg;
     }
 
-       public void makeStatusAndMsg(ViewStatusEnum statusEnum){
-       setStatusCode(statusEnum.getViewStatusCode());
-       setMsg(statusEnum.getViewMsg());
+       public void makeStatusAndMsg(GlobalErrorEnum statusEnum){
+       setStatusCode(statusEnum.getErrorCode());
+       setMsg(statusEnum.getErrorMsg());
     }
 }

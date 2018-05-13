@@ -1,9 +1,8 @@
 package fuwu.controller;
 
 import fuwu.commen.JsonResult;
-import fuwu.em.ViewStatusEnum;
+import fuwu.em.GlobalErrorEnum;
 import fuwu.po.Project;
-import fuwu.service.FtpService;
 import fuwu.service.ProjectService;
 import fuwu.service.ViewService;
 import fuwu.util.JsonPUtils;
@@ -12,15 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.jws.Oneway;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 /**
  * Created by LJW on 2018/4/20 - 11:59
@@ -90,7 +86,7 @@ public class ProjectController {
         if(projectService.addProject(project)) {
             return JsonResultUtil.createSucess(project);
         }
-        return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
         /*return JsonPUtils.makeJsonP(
                 JsonResultUtil.createSucess(projectService.addProject(project)),
                 callback
