@@ -6,6 +6,7 @@ package fuwu.po;
 public class Media {
     private Integer id;
     private String mediaUrl;    //热点资源地址
+    private  String mediaName;//用户上传媒体名称
     private Integer mediaType;      //媒体类型，1文字，2图片，3音频，4视频,5全景图，6缩率图
     private Integer deleted;        //逻辑删除
 
@@ -41,6 +42,12 @@ public class Media {
         this.mediaUrl = mediaUrl;
     }
 
+    public String getMediaName() {
+        return mediaName;
+    }
 
+    public void setMediaName(String mediaName) {
+        this.mediaName = mediaName;
+    }
 }
 
