@@ -60,6 +60,8 @@ public class MediaController {
         response.setContentType("bin");
 
         response.setContentType("charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Methods","POST,GET,DELETE,OPTIONS,DELETE");
         response.setHeader("Access-Control-Allow-Headers", "accept, content-type");
         response.addHeader("Content-Disposition","inline;filename=" + media.getMediaUrl());
         OutputStream fos = null;

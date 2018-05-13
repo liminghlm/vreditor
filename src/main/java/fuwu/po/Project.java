@@ -1,6 +1,5 @@
 package fuwu.po;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 /**
@@ -12,7 +11,7 @@ public class Project {
     private Integer id;
     private String projectName;     //项目名称
     private String projectInfo;     //项目描述
-    private String projectState;    //项目类型，0未完成编辑，1已发布
+    private Integer projectState;    //项目类型，0未完成编辑，1已发布
     private Date projectCreateTime; //项目创建时间
     private Date projectUpdateTime; //项目更新时间
     private Integer deleted;            //逻辑删除
@@ -29,7 +28,7 @@ public class Project {
         return projectInfo;
     }
 
-    public String getProjectState() {
+    public Integer getProjectState() {
         return projectState;
     }
 
@@ -53,7 +52,7 @@ public class Project {
         this.projectInfo = projectInfo;
     }
 
-    public void setProjectState(String projectState) {
+    public void setProjectState(Integer projectState) {
         this.projectState = projectState;
     }
 

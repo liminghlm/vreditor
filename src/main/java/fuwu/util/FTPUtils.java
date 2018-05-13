@@ -10,6 +10,7 @@ import java.net.SocketException;
 
 public class FTPUtils {
     private  static final Logger LOGGER = LoggerFactory.getLogger(FTPUtils.class);
+
     public static FTPClient buildFTPClient(String userName, String passWord,String ftpHost,String  ftpPort){
         FTPClient ftpClient = new FTPClient();
         try {

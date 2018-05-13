@@ -21,6 +21,7 @@ public class ViewServiceImpl implements ViewService {
 
 
 
+
     @Autowired
     private ViewMapper viewMapper;
     @Autowired
@@ -43,6 +44,11 @@ public class ViewServiceImpl implements ViewService {
         viewDetail.setIntetractionList(realInteractionList);
         viewDetail.setRealViewRelationList(realViewRelationList);
         return viewDetail;
+    }
+
+    @Override
+    public List<View> getViewListByProjectId(Integer projectId) {
+        return null;
     }
 
 

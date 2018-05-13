@@ -5,5 +5,54 @@
 
 
 <mapper namespace="fuwu.mapper.ProjectMapper">
+    <resultMap id="project" type="fuwu.po.Project">
+        <result property="id" column="id"/>
+        <result property="projectName" column="project_name"/>
+        <result property="projectInfo" column="project_info"/>
+        <result property="projectState" column="project_state"/>
+        <result property="projectCreateTime" column="create_time"/>
+        <result property="projectUpdateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="getProjectList" resultMap="project" parameterType="fuwu.po.Project">
+        SELECT *
+        FROM project
+        <where>
+            <if test="projectName!=null and projectName!=''">
+                project_name like '%${projectName}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="addProject" parameterType="fuwu.po.Project" useGeneratedKeys="true" keyProperty="id">
+          INSERT INTO project
+          (project_name,project_info,project_state,create_time,update_time,deleted)
+          VALUES
+          (#{projectName},#{projectInfo},#{projectState},#{projectCreateTime},#{projectUpdateTime},#{deleted})
+    </insert>
+
+    <update id="updateProject">
+        UPDATE project
+        SET
+        project_name=#{projectName},
+        project_info=#{projectInfo},
+        project_state=#{projectState},
+        create_time=#{projectCreateTime},
+        update_time=#{projectUpdateTime},
+        deleted=#{deleted}
+        WHERE
+        id=#{id}
+    </update>
+
+
+    <update id="deleteProject" parameterType="Integer">
+        UPDATE project
+        set
+        deleted=1
+        WHERE
+        id=#{id}
+    </update>
+
 
 </mapper>
