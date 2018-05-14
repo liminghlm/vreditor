@@ -1,7 +1,7 @@
 package fuwu.util;
 
 import fuwu.commen.JsonResult;
-import fuwu.em.ViewStatusEnum;
+import fuwu.em.GlobalErrorEnum;
 
 /**
  * @Author: ypc
@@ -13,10 +13,10 @@ public class JsonResultUtil {
         JsonResult jsonResult=new JsonResult();
         jsonResult.setIsSuccess(true);
         jsonResult.setData(object);
-        jsonResult.makeStatusAndMsg(ViewStatusEnum.SUCESS);
+        jsonResult.makeStatusAndMsg(GlobalErrorEnum.SUCESS);
         return  jsonResult;
     }
-        public static JsonResult createError(ViewStatusEnum statusEnum){
+        public static JsonResult createError(GlobalErrorEnum statusEnum){
         JsonResult jsonResult=new JsonResult();
         jsonResult.setIsSuccess(false);
         jsonResult.makeStatusAndMsg(statusEnum);

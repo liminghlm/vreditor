@@ -2,7 +2,7 @@ package fuwu.controller;
 
 import fuwu.bo.ViewDetail;
 import fuwu.commen.JsonResult;
-import fuwu.em.ViewStatusEnum;
+import fuwu.em.GlobalErrorEnum;
 import fuwu.po.Project;
 import fuwu.po.View;
 import fuwu.service.ProjectService;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 
 /**
  * Created by LJW on 2018/4/20 - 11:59
@@ -48,7 +47,7 @@ public class ProjectController {
     public JsonResult getMainViewByProId(Integer projectId) {
         View view = viewService.getMainViewByProjectId(projectId);
         if(view == null || view.equals("")){
-            return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
         }
         return JsonResultUtil.createSucess(view);
         /*return JsonPUtils.makeJsonP(
@@ -67,7 +66,7 @@ public class ProjectController {
     public JsonResult getViewDetailByViewId(Integer viewId) {
         ViewDetail viewdetail = viewService.getViewDetailByViewId(viewId);
         if(viewdetail == null || viewdetail.equals("")){
-            return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
         }
         return JsonResultUtil.createSucess(viewdetail);
         /*return JsonPUtils.makeJsonP(
@@ -92,8 +91,12 @@ public class ProjectController {
         if(projectService.addProject(project)) {
             return JsonResultUtil.createSucess(project);
         }
-        return JsonResultUtil.createError(ViewStatusEnum.ERROR);
 
+        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+        /*return JsonPUtils.makeJsonP(
+                JsonResultUtil.createSucess(projectService.addProject(project)),
+                callback
+        );*/
     }
 
     /**
@@ -108,7 +111,7 @@ public class ProjectController {
         project.setProjectName(request.getParameter("projectName"));
         List<Project> projectlist = projectService.getProjectList(project);
         if(projectlist == null || projectlist.equals("")){
-            return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
         }
         return JsonResultUtil.createSucess(projectlist);
     }
@@ -127,7 +130,7 @@ public class ProjectController {
         if(projectService.updateProject(project)) {
             return JsonResultUtil.createSucess(project);
         }
-        return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
     }
 
     /**
@@ -142,7 +145,7 @@ public class ProjectController {
         if(projectService.deleteProject(projectId)) {
             return JsonResultUtil.createSucess(null);
         }
-        return JsonResultUtil.createError(ViewStatusEnum.ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
     }
 
 
