@@ -23,6 +23,7 @@ fuwu\service\MediaService.class
 fuwu\controller\ViewController.class
 fuwu\service\impl\InteractionServiceImpl.class
 fuwu\mapper\InteractionMapper.class
+fuwu\filter\HeaderFilter.class
 fuwu\service\ViewService.class
 fuwu\mapper\ViewMapper.class
 fuwu\bo\ViewDetail.class

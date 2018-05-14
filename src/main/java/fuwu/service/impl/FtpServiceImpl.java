@@ -62,31 +62,37 @@ public class FtpServiceImpl implements FtpService {
 
 
     public  boolean uploadFile(String fileName,InputStream input) {
-//        FTPClient ftpClient = buildFTPClient();
-//        boolean success = false;
-//        try {
-//            int reply;
-//            reply = ftpClient.getReplyCode();
-//            if (!FTPReply.isPositiveCompletion(reply)) {
-//                ftpClient.disconnect();
-//                return success;
-//            }
-//            ftpClient.storeFile(fileName, input);
-//
-//            input.close();
-//            success = true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                ftpClient.logout();
-//            }catch (Exception e) {
-//
-//            }
-//
-//        }
-//        return success;
-        return true;
+
+        FTPClient ftpClient = FTPUtils.buildFTPClient(userName,passWord,ftpHost,ftpPort);
+        boolean success = false;
+        try {
+            int reply;
+            reply = ftpClient.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftpClient.disconnect();
+                return success;
+            }
+            ftpClient.setControlEncoding("UTF-8"); // 中文支持
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.changeWorkingDirectory(basePath);
+
+            ftpClient.storeFile(fileName, input);
+
+            input.close();
+            ftpClient.logout();
+            success = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ftpClient.logout();
+            }catch (Exception e) {
+
+            }
+
+        }
+        return success;
     }
 }
 

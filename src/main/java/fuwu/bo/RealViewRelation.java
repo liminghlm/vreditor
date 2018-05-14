@@ -1,8 +1,6 @@
 package fuwu.bo;
 
 import fuwu.em.ViewRelationEnum;
-import fuwu.em.ViewStatusEnum;
-import fuwu.po.View;
 import fuwu.po.ViewRelation;
 
 /**

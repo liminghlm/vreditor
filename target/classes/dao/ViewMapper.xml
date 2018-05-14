@@ -18,13 +18,14 @@
     </resultMap>
 
     <select id="getMainViewByProjectId" parameterType="Integer" resultMap="view">
-        SELECT * FROM view  WHERE  view_type=1 AND project_id = #{projectId}
+        SELECT * FROM view  WHERE  view_type=1 AND deleted=0 AND  project_id = #{projectId}
     </select>
 
     <select id="getViewByViewId" resultMap="view">
         select *
         from view
         where id = #{viewId}
+        AND deleted=0
     </select>
 
 </mapper>
