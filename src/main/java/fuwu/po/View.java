@@ -19,6 +19,15 @@ public class View {
     private Integer projectId;      //场景所属项目id
     private Integer deleted;        //逻辑删除
 
+    public View(Integer projectId) {
+        this.setProjectId(projectId);
+        this.setDeleted(0);
+    }
+
+    public View() {
+        this.setDeleted(0);
+    }
+
     public Integer getViewMiniId() {
         return viewMiniId;
     }

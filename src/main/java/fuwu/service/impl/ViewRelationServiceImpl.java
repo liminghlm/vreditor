@@ -1,9 +1,12 @@
 package fuwu.service.impl;
 
 import fuwu.bo.RealViewRelation;
+import fuwu.controller.ViewRelationController;
 import fuwu.mapper.ViewRelationMapper;
 import fuwu.po.ViewRelation;
 import fuwu.service.ViewRelationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import java.util.List;
  */
 @Service
 public class ViewRelationServiceImpl implements ViewRelationService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewRelationServiceImpl.class);
+
     @Autowired
     private ViewRelationMapper viewRelationMapper;
     @Override
@@ -31,5 +36,26 @@ public class ViewRelationServiceImpl implements ViewRelationService {
             realViewRelationList.add(realViewRelation);
         }
         return realViewRelationList;
+    }
+
+    @Override
+    public List<ViewRelation> getViewRelationListByProjectId(Integer projectId) {
+        return viewRelationMapper.getViewRelationListByProjectId(projectId);
+    }
+
+    @Override
+    public Boolean createViewRelation(ViewRelation viewRelation) {
+        boolean result = false;
+        try {
+            result = viewRelationMapper.createViewRelation(viewRelation);
+        }catch (Exception e) {
+            LOGGER.error("operate mysql error",e);
+        }
+        return result;
+    }
+
+    @Override
+    public Integer deleteViewRelation(Integer viewRelationId) {
+        return viewRelationMapper.deleteViewRelation(viewRelationId);
     }
 }
