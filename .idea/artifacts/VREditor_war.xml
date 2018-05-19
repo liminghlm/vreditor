@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="VREditor:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="CrawlerDemo.war">
-      <element id="artifact" artifact-name="VREditor:war exploded" />
-    </root>
-  </artifact>
-</component>

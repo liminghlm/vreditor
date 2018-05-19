@@ -47,7 +47,7 @@ public class ProjectController {
     public JsonResult getMainViewByProId(Integer projectId) {
         View view = viewService.getMainViewByProjectId(projectId);
         if(view == null || view.equals("")){
-            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(view);
         /*return JsonPUtils.makeJsonP(
@@ -66,7 +66,7 @@ public class ProjectController {
     public JsonResult getViewDetailByViewId(Integer viewId) {
         ViewDetail viewdetail = viewService.getViewDetailByViewId(viewId);
         if(viewdetail == null || viewdetail.equals("")){
-            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(viewdetail);
         /*return JsonPUtils.makeJsonP(
@@ -92,7 +92,7 @@ public class ProjectController {
             return JsonResultUtil.createSucess(project);
         }
 
-        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         /*return JsonPUtils.makeJsonP(
                 JsonResultUtil.createSucess(projectService.addProject(project)),
                 callback
@@ -111,7 +111,7 @@ public class ProjectController {
         project.setProjectName(request.getParameter("projectName"));
         List<Project> projectlist = projectService.getProjectList(project);
         if(projectlist == null || projectlist.equals("")){
-            return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(projectlist);
     }
@@ -130,7 +130,7 @@ public class ProjectController {
         if(projectService.updateProject(project)) {
             return JsonResultUtil.createSucess(project);
         }
-        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
 
     /**
@@ -145,7 +145,7 @@ public class ProjectController {
         if(projectService.deleteProject(projectId)) {
             return JsonResultUtil.createSucess(null);
         }
-        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
 
 

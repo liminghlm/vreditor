@@ -9,6 +9,7 @@
     <result column="view_id" property="viewId"/>
     <result column="interaction_type" property="interactionType"/>
     <result column="interaction_position" property="interactionPosition"/>
+    <result column="interaction_name" property="interactionName"/>
 
 </resultMap>
 

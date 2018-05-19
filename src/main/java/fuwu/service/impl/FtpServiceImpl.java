@@ -3,8 +3,10 @@ package fuwu.service.impl;
 
 import fuwu.service.FtpService;
 import fuwu.task.DownloadTask;
+import fuwu.task.UploadTask;
 import fuwu.util.FTPUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.slf4j.Logger;
@@ -61,38 +63,16 @@ public class FtpServiceImpl implements FtpService {
     }
 
 
-    public  boolean uploadFile(String fileName,InputStream input) {
+    public  String uploadFile(String fileName,InputStream inputStream) throws InterruptedException, ExecutionException, TimeoutException {
 
-        FTPClient ftpClient = FTPUtils.buildFTPClient(userName,passWord,ftpHost,ftpPort);
-        boolean success = false;
-        try {
-            int reply;
-            reply = ftpClient.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftpClient.disconnect();
-                return success;
-            }
-            ftpClient.setControlEncoding("UTF-8"); // 中文支持
-            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.changeWorkingDirectory(basePath);
+        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String realFileName= String.valueOf(System.currentTimeMillis())+String.valueOf(RandomUtils.nextLong())+suffix;
+        Future<Boolean> result =uploadExecutorService.submit(new UploadTask(userName,passWord,ftpHost,ftpPort,basePath,realFileName,inputStream));
 
-            ftpClient.storeFile(fileName, input);
+        result.get(3,TimeUnit.MINUTES);
 
-            input.close();
-            ftpClient.logout();
-            success = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                ftpClient.logout();
-            }catch (Exception e) {
+        return realFileName;
 
-            }
-
-        }
-        return success;
     }
 }
 

@@ -9,6 +9,7 @@ public class Interaction {
     private Integer viewId;             //热点所属场景id
     private Integer interactionType;    //热点类型，分为0基本，1组合，基本即文字，图片，音频，视频四类，组合为这四种的组合
     private String interactionPosition; //热点的位置
+    private String interactionName;
 
     public Integer getId() {
         return id;
@@ -40,5 +41,13 @@ public class Interaction {
 
     public void setInteractionPosition(String interactionPosition) {
         this.interactionPosition = interactionPosition;
+    }
+
+    public String getInteractionName() {
+        return interactionName;
+    }
+
+    public void setInteractionName(String interactionName) {
+        this.interactionName = interactionName;
     }
 }

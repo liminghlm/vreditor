@@ -28,4 +28,11 @@ public class MediaServiceImpl implements MediaService {
     public Media getMediaUrlByMediaId(Integer mediaId) {
         return mediaMapper.getMediaUrlByMediaId(mediaId);
     }
+
+    @Override
+    public Integer addMedia(Media media) {
+        return mediaMapper.addMedia(media);
+    }
+
+
 }

@@ -22,6 +22,7 @@ public class RealInteraction extends Interaction {
         super.setViewId(interaction.getViewId());
         super.setInteractionType(interaction.getInteractionType());
         super.setInteractionPosition(interaction.getInteractionPosition());
+        super.setInteractionName(interaction.getInteractionName());
     }
 
     public List<Media> getMediaList() {

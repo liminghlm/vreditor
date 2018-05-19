@@ -3,35 +3,45 @@
     <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <script src="jquery-3.3.1.min.js"></script>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 </head>
 <body>
-<h2>Hello World!</h2>
-<%--<a href="ftp://192.168.11.207/data/dwe.jpg">aaa</a>--%>
-<%--<img src="/test">
-<img src="/project/getMainView">--%>
+
 
 <div>
-    <div id="mainview">
-        <button id="btn">我是主场景</button>
-        <img id="a" src="/project/getMainView?projectid=1">
+    <div class="input-chunk">
+        <div>输入文件：</div>
+        <input type="file" value="选择文件" id="upload-file">
+        <br>
+        <a id="start-upload" href="javascript:void(0);" onclick="uploadFile();">开始上传</a>
     </div>
 
 </div>
 <script>
-    $(function () {
-        $("#btn").click(function(){
-                $.ajax({
-                    type: 'GET',
-                    url: '/project/getMainView?projectid=1',
-                    dataTyp: 'json',
-                    success: function(result){
-                        console.log(result);
-                    }
-                })
-        })
-    })
+    function uploadFile(){
+        var fileObj = document.getElementById("upload-file").files[0]; // 获取文件对象
+        var FileController = "/media/create"; // 接收上传文件的后台地址
+
+        if(fileObj){
+            alert(fileObj);
+            // FormData 对象
+            var form = new FormData();
+            form.append("file", fileObj);// 文件对象
+
+            // XMLHttpRequest 对象
+            var xhr = new XMLHttpRequest();
+            xhr.open("post", FileController, true);
+            xhr.onload = function () {
+                alert(xhr.responseText);
+            };
+            xhr.send(form);
+
+        }else{
+            alert("未选择文件");
+        }
+    }
     
 </script>
 </body>

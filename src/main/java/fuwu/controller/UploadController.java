@@ -46,9 +46,8 @@ public class UploadController {
 
         try {
             FileInputStream in = new FileInputStream(new File(path));
-            boolean result = ftpService.uploadFile(fileName,in);
-            System.out.println(result);
-        } catch (FileNotFoundException e) {
+            ftpService.uploadFile(fileName,in);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
