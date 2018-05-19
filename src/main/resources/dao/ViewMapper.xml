@@ -28,4 +28,17 @@
         AND deleted=0
     </select>
 
+    <insert id="createView" parameterType="fuwu.po.View" useGeneratedKeys="true" keyProperty="id">
+          INSERT INTO view
+          (media_id,view_type,view_info,view_name,project_id,deleted)
+          VALUES
+          (#{mediaId},#{viewType},#{viewInfo},#{viewName},#{projectId},0)
+    </insert>
+
+    <delete id="deletePhysically" parameterType="fuwu.po.View">
+        delete from
+        view
+        where
+        id=#{id}
+    </delete>
 </mapper>

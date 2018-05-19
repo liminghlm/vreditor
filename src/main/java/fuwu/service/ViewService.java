@@ -16,4 +16,5 @@ public interface ViewService {
    public List<View> getViewListByProjectId(Integer projectId);
 
 
+   boolean createView(View view);
 }

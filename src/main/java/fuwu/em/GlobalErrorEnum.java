@@ -8,7 +8,8 @@ package fuwu.em;
 public enum GlobalErrorEnum {
     SUCESS(0,"sucess"),
     ERROR(1,"error"),
-    PARAM_NULL_ERROR(3,"param is empty");
+    PARAM_NULL_ERROR(3,"param is empty"),
+    MAIN_VEW_CONFLICT(4,"main view exists");
 
 
     private Integer errorCode;

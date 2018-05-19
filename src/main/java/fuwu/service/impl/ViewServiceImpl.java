@@ -28,6 +28,11 @@ public class ViewServiceImpl implements ViewService {
     private InteractionService interactionService;
     @Autowired
     private ViewRelationService viewRelationService;
+
+    @Autowired
+    private PicutureCompressService picutureCompressService;
+
+
     @Override
     public View getMainViewByProjectId(Integer projectId) {
         return viewMapper.getMainViewByProjectId(projectId);
@@ -49,6 +54,19 @@ public class ViewServiceImpl implements ViewService {
     @Override
     public List<View> getViewListByProjectId(Integer projectId) {
         return null;
+    }
+
+    @Override
+    public boolean createView(View view) {
+//        if (viewMapper.createView(view)) {
+//            if (picutureCompressService.compressAndUpdate(view)) {
+//                return true;
+//            } else {
+//                viewMapper.deletePhysically(view);
+//            }
+//        }
+
+        return false;
     }
 
 
