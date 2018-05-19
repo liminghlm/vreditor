@@ -7,7 +7,7 @@ package fuwu.em;
  */
 public enum GlobalErrorEnum {
     SUCESS(0,"sucess"),
-    VIEW_ERROR(1,"view error");
+    ERROR(1,"error");
 
 
     private Integer errorCode;

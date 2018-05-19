@@ -9,6 +9,16 @@ public class Media {
     private  String mediaName;//用户上传媒体名称
     private Integer mediaType;      //媒体类型，1文字，2图片，3音频，4视频,5全景图，6缩率图
     private Integer deleted;        //逻辑删除
+    public Media(){
+
+    }
+    public Media(Integer id, String mediaUrl, String mediaName, Integer mediaType, Integer deleted) {
+        this.id = id;
+        this.mediaUrl = mediaUrl;
+        this.mediaName = mediaName;
+        this.mediaType = mediaType;
+        this.deleted = deleted;
+    }
 
     public Integer getId() {
         return id;

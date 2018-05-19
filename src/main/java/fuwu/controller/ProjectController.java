@@ -1,8 +1,10 @@
 package fuwu.controller;
 
+import fuwu.bo.ViewDetail;
 import fuwu.commen.JsonResult;
 import fuwu.em.GlobalErrorEnum;
 import fuwu.po.Project;
+import fuwu.po.View;
 import fuwu.service.ProjectService;
 import fuwu.service.ViewService;
 import fuwu.util.JsonPUtils;
@@ -15,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by LJW on 2018/4/20 - 11:59
@@ -32,7 +35,6 @@ public class ProjectController {
     @Autowired
     private ViewService viewService;
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.class);
 
     /**
@@ -42,51 +44,55 @@ public class ProjectController {
      */
     @ResponseBody
     @RequestMapping(value = "/getMainView", method = RequestMethod.GET)
-    public String getMainViewByProId(Integer projectId,String callback) {
-
-        return JsonPUtils.makeJsonP(
+    public JsonResult getMainViewByProId(Integer projectId) {
+        View view = viewService.getMainViewByProjectId(projectId);
+        if(view == null || view.equals("")){
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+        }
+        return JsonResultUtil.createSucess(view);
+        /*return JsonPUtils.makeJsonP(
                 JsonResultUtil.createSucess(viewService.getMainViewByProjectId(projectId)),
                 callback
-        );
+        );*/
     }
 
     /**
      * 本接口实现 根据场景id返回场景详细信息
      * @param viewId
-     * @param callback
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getViewDetailByViewId", method = RequestMethod.GET)
-    public String getViewDetailByViewId(Integer viewId,String callback) {
-
-        return JsonPUtils.makeJsonP(
+    public JsonResult getViewDetailByViewId(Integer viewId) {
+        ViewDetail viewdetail = viewService.getViewDetailByViewId(viewId);
+        if(viewdetail == null || viewdetail.equals("")){
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+        }
+        return JsonResultUtil.createSucess(viewdetail);
+        /*return JsonPUtils.makeJsonP(
                 JsonResultUtil.createSucess(viewService.getViewDetailByViewId(viewId)),
                 callback
-        );
+        );*/
     }
 
     /**
      * 本接口实现 project的创建
      * @param request
-     * @param callback
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public JsonResult createProject(HttpServletRequest request,HttpServletResponse response, String callback) {
+    public JsonResult createProject(HttpServletRequest request) {
 
         Project project = new Project();
-        response.setHeader("Access-Control-Allow-Origin","*");
-        response.setHeader("Access-Control-Allow-Methods","POST,GET,DELETE,OPTIONS,DELETE");
-        response.setHeader("Access-Control-Allow-Headers", "accept, content-type");
         project.setProjectName(request.getParameter("name"));
         project.setProjectInfo(request.getParameter("description"));
 
         if(projectService.addProject(project)) {
             return JsonResultUtil.createSucess(project);
         }
-        return JsonResultUtil.createError(GlobalErrorEnum.VIEW_ERROR);
+
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         /*return JsonPUtils.makeJsonP(
                 JsonResultUtil.createSucess(projectService.addProject(project)),
                 callback
@@ -96,57 +102,50 @@ public class ProjectController {
     /**
      * 本接口实现 根据projectName获得Project列表，没有ProjectName则返回全部Project。
      * @param request
-     * @param callback
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getProjectList", method = RequestMethod.GET)
-    public JsonResult getProjectList(HttpServletRequest request,HttpServletResponse response, String callback) {
+    public JsonResult getProjectList(HttpServletRequest request) {
         Project project = new Project();
-
-        response.setHeader("Access-Control-Allow-Origin","*");
-        response.setHeader("Access-Control-Allow-Methods","POST,GET,DELETE,OPTIONS,DELETE");
-        response.setHeader("Access-Control-Allow-Headers", "accept, content-type");
-
         project.setProjectName(request.getParameter("projectName"));
-        return JsonResultUtil.createSucess(projectService.getProjectList(project));
-        /*return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(projectService.getProjectList(project.getProjectName())),
-                callback
-        );*/
+        List<Project> projectlist = projectService.getProjectList(project);
+        if(projectlist == null || projectlist.equals("")){
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+        }
+        return JsonResultUtil.createSucess(projectlist);
     }
 
     /**
      * 本接口实现 project的编辑功能
      * @param request
-     * @param callback
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateProject(HttpServletRequest request, String callback) {
+    public JsonResult updateProject(HttpServletRequest request) {
         Project project = new Project();
         project.setProjectName(request.getParameter("projectName"));
         project.setProjectInfo(request.getParameter("projectInfo"));
-        return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(projectService.updateProject(project)),
-                callback
-        );
+        if(projectService.updateProject(project)) {
+            return JsonResultUtil.createSucess(project);
+        }
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
 
     /**
      * 本接口实现 project的删除功能。
      * @param projectId
-     * @param callback
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteProject(Integer projectId, String callback) {
-        return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(projectService.deleteProject(projectId)),
-                callback
-        );
+    public JsonResult deleteProject(Integer projectId) {
+
+        if(projectService.deleteProject(projectId)) {
+            return JsonResultUtil.createSucess(null);
+        }
+        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
 
 

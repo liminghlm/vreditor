@@ -15,4 +15,6 @@ public interface MediaMapper {
 
     public Media getMediaUrlByMediaId(@Param("mediaId") Integer mediaId);
 
+    public Integer addMedia(Media media);
+
 }

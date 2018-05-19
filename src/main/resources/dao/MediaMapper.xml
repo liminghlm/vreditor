@@ -8,6 +8,7 @@
         <result column="id" property="id"/>
         <result column="media_url" property="mediaUrl"/>
         <result column="media_type" property="mediaType"/>
+        <result column="media_name" property="mediaName"/>
         <result column="deleted" property="deleted"/>
 
     </resultMap>
@@ -25,4 +26,7 @@
     <select id="getMediaUrlByMediaId" parameterType="Integer"  resultMap="media">
         SELECT * FROM media WHERE id=#{mediaId}
     </select>
+    <insert id="addMedia"  keyProperty="id" useGeneratedKeys="true" >
+INSERT INTO media(media_url,media_type,deleted,media_name) VALUES (#{mediaUrl},#{mediaType},0,#{mediaName})
+    </insert>
 </mapper>

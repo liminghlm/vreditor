@@ -19,8 +19,9 @@
         SELECT *
         FROM project
         <where>
+            deleted = 0
             <if test="projectName!=null and projectName!=''">
-                project_name like '%${projectName}%'
+                AND  project_name like '%${projectName}%'
             </if>
         </where>
     </select>
