@@ -12,4 +12,10 @@ import java.util.List;
  */
 public interface InteractionMapper {
     public List<Interaction> getInterationlistByViewId(@Param("viewId") Integer viewId);
+
+    Integer createInteraction(Interaction interaction);
+
+    Integer deleteInteraction(Interaction interaction);
+
+    Integer updateInteraction(Interaction interaction);
 }
