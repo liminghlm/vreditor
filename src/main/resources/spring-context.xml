@@ -70,6 +70,7 @@
     <task:annotation-driven/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <bean class="fuwu.aop.LogAsp"/>
     <!-- 自动扫描包路径  -->
 
 </beans>

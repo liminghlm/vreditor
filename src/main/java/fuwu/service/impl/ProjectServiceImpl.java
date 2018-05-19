@@ -25,32 +25,27 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProjectUpdateTime(new Date(System.currentTimeMillis()));
         project.setDeleted(0);
         project.setProjectState(1);
-        if(projectMapper.addProject(project)){
-            return true;
-        }
-        else
-            return false;
+        return projectMapper.addProject(project);
     }
 
     @Override
     public boolean updateProject(Project project) {
-        if(projectMapper.updateProject(project)){
-            return true;
-        }
-        return false;
+        return projectMapper.updateProject(project);
     }
 
     @Override
     public boolean deleteProject(Integer projectId) {
-        if(projectMapper.deleteProject(projectId)){
-            return true;
-        }
-        return false;
+        return projectMapper.deleteProject(projectId);
     }
 
     @Override
     public List<Project> getProjectList(Project project) {
 
         return projectMapper.getProjectList(project);
+    }
+
+    @Override
+    public boolean publishProject(Integer projectId) {
+        return projectMapper.publishProject(projectId);
     }
 }
