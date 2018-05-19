@@ -18,4 +18,6 @@ public interface ProjectMapper {
     public boolean deleteProject(@Param("id") Integer projectId);
 
     public List<Project> getProjectList(Project project);
+
+    boolean publishProject(@Param("id")Integer projectId);
 }

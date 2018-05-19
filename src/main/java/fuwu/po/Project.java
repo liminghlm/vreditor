@@ -16,6 +16,24 @@ public class Project {
     private Date projectUpdateTime; //项目更新时间
     private Integer deleted;            //逻辑删除
 
+    public Project(String name, String description) {
+        this.setProjectName(name);
+        this.setProjectInfo(description);
+        this.setDeleted(0);
+        this.setProjectState(0);
+    }
+
+    public Project() {
+    }
+
+    public Project(String name, String description, Integer projectId) {
+        this.setProjectName(name);
+        this.setProjectInfo(description);
+        this.setId(projectId);
+        this.setDeleted(0);
+        this.setProjectState(0);
+    }
+
     public Integer getId() {
         return id;
     }

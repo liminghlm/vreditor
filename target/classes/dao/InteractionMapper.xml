@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fuwu.mapper.InteractionMapper">
+
+<resultMap id="interation" type="fuwu.po.Interaction">
+    <result column="id" property="id"/>
+    <result column="view_id" property="viewId"/>
+    <result column="interaction_type" property="interactionType"/>
+    <result column="interaction_position" property="interactionPosition"/>
+    <result column="interaction_name" property="interactionName"/>
+
+</resultMap>
+
+    <select id="getInterationlistByViewId" resultMap="interation">
+SELECT *
+FROM interaction
+WHERE
+view_id=#{viewId}
+
+    </select>
+</mapper>

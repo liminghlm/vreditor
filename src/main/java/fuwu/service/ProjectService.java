@@ -19,4 +19,6 @@ public interface ProjectService {
     public boolean deleteProject(Integer projectId);
 
     public List<Project> getProjectList(Project project);
+
+    boolean publishProject(Integer projectId);
 }

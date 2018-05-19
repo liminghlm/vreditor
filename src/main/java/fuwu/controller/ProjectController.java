@@ -1,5 +1,7 @@
 package fuwu.controller;
 
+import com.alibaba.fastjson.JSON;
+import fuwu.aop.ForLog;
 import fuwu.bo.ViewDetail;
 import fuwu.commen.JsonResult;
 import fuwu.em.GlobalErrorEnum;
@@ -7,8 +9,8 @@ import fuwu.po.Project;
 import fuwu.po.View;
 import fuwu.service.ProjectService;
 import fuwu.service.ViewService;
-import fuwu.util.JsonPUtils;
 import fuwu.util.JsonResultUtil;
+import fuwu.util.ParamCheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +45,14 @@ public class ProjectController {
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getMainView", method = RequestMethod.GET)
     public JsonResult getMainViewByProId(Integer projectId) {
         View view = viewService.getMainViewByProjectId(projectId);
-        if(view == null || view.equals("")){
+        if(view == null){
             return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(view);
-        /*return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(viewService.getMainViewByProjectId(projectId)),
-                callback
-        );*/
     }
 
     /**
@@ -62,75 +61,81 @@ public class ProjectController {
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getViewDetailByViewId", method = RequestMethod.GET)
     public JsonResult getViewDetailByViewId(Integer viewId) {
         ViewDetail viewdetail = viewService.getViewDetailByViewId(viewId);
-        if(viewdetail == null || viewdetail.equals("")){
+        if(ParamCheckUtil.checkParamsNotNull(viewId)){
             return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(viewdetail);
-        /*return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(viewService.getViewDetailByViewId(viewId)),
-                callback
-        );*/
     }
 
     /**
      * 本接口实现 project的创建
-     * @param request
+     * @param
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public JsonResult createProject(HttpServletRequest request) {
+    public JsonResult createProject(String name,String description) {
 
-        Project project = new Project();
-        project.setProjectName(request.getParameter("name"));
-        project.setProjectInfo(request.getParameter("description"));
+        if ( !ParamCheckUtil.checkParamsNotNull(name) ) {
+            LOGGER.error("/project/create error with null project name");
+            return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
+        }
+
+        Project project = new Project(name,description);
 
         if(projectService.addProject(project)) {
             return JsonResultUtil.createSucess(project);
+        } else {
+            LOGGER.error("create project error ");
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
 
-        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
-        /*return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(projectService.addProject(project)),
-                callback
-        );*/
     }
 
     /**
      * 本接口实现 根据projectName获得Project列表，没有ProjectName则返回全部Project。
-     * @param request
+     * @param
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getProjectList", method = RequestMethod.GET)
-    public JsonResult getProjectList(HttpServletRequest request) {
+    public JsonResult getProjectList( String projectName) {
         Project project = new Project();
-        project.setProjectName(request.getParameter("projectName"));
+        project.setProjectName(projectName);
+
         List<Project> projectlist = projectService.getProjectList(project);
-        if(projectlist == null || projectlist.equals("")){
-            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
-        }
+
         return JsonResultUtil.createSucess(projectlist);
     }
 
     /**
      * 本接口实现 project的编辑功能
-     * @param request
+     * @param
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public JsonResult updateProject(HttpServletRequest request) {
-        Project project = new Project();
-        project.setProjectName(request.getParameter("projectName"));
-        project.setProjectInfo(request.getParameter("projectInfo"));
+    public JsonResult updateProject(String name,String description, Integer projectId) {
+        if ( !ParamCheckUtil.checkParamsNotNull(name,projectId) ) {
+            LOGGER.error("/project/update error with null project name or projectId");
+            return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
+        }
+
+        Project project = new Project(name,description,projectId);
+
         if(projectService.updateProject(project)) {
             return JsonResultUtil.createSucess(project);
+        } else {
+            LOGGER.error("/project/update error with param {}",JSON.toJSON(project));
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
-        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
 
     /**
@@ -139,14 +144,32 @@ public class ProjectController {
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResult deleteProject(Integer projectId) {
 
         if(projectService.deleteProject(projectId)) {
             return JsonResultUtil.createSucess(null);
+        } else {
+            LOGGER.error("/project/delete error with param {}", projectId);
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
-        return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
+
+
+    @ResponseBody
+    @ForLog
+    @RequestMapping(value = "/publish", method = RequestMethod.POST)
+    public JsonResult publishProject(Integer projectId) {
+
+        if(projectService.publishProject(projectId)) {
+            return JsonResultUtil.createSucess(null);
+        } else {
+            LOGGER.error("/project/publish error with param {}", projectId);
+            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+        }
+    }
+
 
 
 }
