@@ -1,6 +1,7 @@
 package fuwu.service;
 
 import fuwu.bo.RealViewRelation;
+import fuwu.po.View;
 import fuwu.po.ViewRelation;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,4 +14,10 @@ import java.util.List;
  */
 public interface ViewRelationService {
     public List<RealViewRelation> getRealViewRelationListByViewId(Integer viewId);
+
+    List<ViewRelation> getViewRelationListByProjectId(Integer projectId);
+
+    Boolean createViewRelation(ViewRelation viewRelation);
+
+    Integer deleteViewRelation(Integer viewRelationId);
 }

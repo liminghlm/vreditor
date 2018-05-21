@@ -20,4 +20,30 @@ WHERE
 view_id=#{viewId}
 
     </select>
+
+
+    <insert id="createInteraction" parameterType="fuwu.po.Interaction" useGeneratedKeys="true" keyProperty="id">
+          INSERT INTO interaction
+          (view_id,interaction_type,interaction_position,interaction_name)
+          VALUES
+          (#{viewId},#{interactionType},#{interactionPosition},#{interactionName})
+    </insert>
+
+    <delete id="deleteInteraction" parameterType="fuwu.po.Interaction">
+        delete from
+        interaction
+        where
+        id=#{id}
+    </delete>
+
+    <update id="updateInteraction" parameterType="fuwu.po.Interaction">
+        update interaction
+        <set>
+            <if test="interactionType!=null">interaction_type=#{interactionType},</if>
+            <if test="interactionPosition!=null">interaction_position=#{interactionPosition},</if>
+            <if test="interactionName!=null">interaction_name=#{interactionName}</if>
+        </set>
+        where
+        id=#{id}
+    </update>
 </mapper>

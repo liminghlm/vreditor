@@ -22,4 +22,38 @@
         view_id=#{viewId}
 
     </select>
+
+    <select id="getViewRelationListByProjectId" resultMap="viewRelation">
+        SELECT
+        vr.*
+        FROM
+        view_relation vr
+        left join
+        view v1
+        on
+        vr.view_id=v1.id
+        left join view v2
+        on
+        vr.relation_view_id=v2.id
+        where
+        v1.project_id = #{projectId}
+        and
+        v2.project_id = #{projectId}
+
+    </select>
+
+    <insert id="createViewRelation" parameterType="fuwu.po.ViewRelation" useGeneratedKeys="true" keyProperty="id">
+          INSERT INTO view_relation
+          (view_id,view_relation,relation_view_id,view_interaction_position)
+          VALUES
+          (#{viewId},#{viewRelation},#{relationViewId},#{viewInteractionPosition})
+    </insert>
+
+    <delete id="deleteViewRelation">
+        delete from
+        view_relation
+        where
+        id=#{id}
+    </delete>
+
 </mapper>
