@@ -3,6 +3,7 @@ package fuwu.service;
 import fuwu.bo.ViewDetail;
 import fuwu.po.View;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -13,8 +14,7 @@ public interface ViewService {
 
    public ViewDetail getViewDetailByViewId(Integer viewId);
 
-   public List<View> getViewListByProjectId(Integer projectId);
-
-
-   boolean createView(View view);
+   boolean createView(View view) throws FileNotFoundException, Exception;
+   List<View> getViewListByProjectId(Integer projectId);
+   Integer deleteView(Integer viewId);
 }

@@ -51,6 +51,7 @@ public class DownloadTask implements Callable<Boolean> {
             while ((bytesRead = bis.read(b)) != -1){
                 bos.write(b, 0, bytesRead);
             }
+            ftpClient.retrieveFile(mediaUrl, fos);
             bos.flush();
             result = true ;
 

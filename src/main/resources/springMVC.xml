@@ -13,5 +13,13 @@
     <context:component-scan base-package="fuwu.controller"></context:component-scan>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"  p:suffix=".jsp"></bean>
 
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+                <value>classpath:ftpconfig.properties</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

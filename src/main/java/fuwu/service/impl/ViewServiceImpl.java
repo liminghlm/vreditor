@@ -11,6 +11,7 @@ import fuwu.service.ViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -51,22 +52,29 @@ public class ViewServiceImpl implements ViewService {
         return viewDetail;
     }
 
+
     @Override
-    public List<View> getViewListByProjectId(Integer projectId) {
-        return null;
+    public boolean createView(View view) throws Exception {
+        if (viewMapper.createView(view)) {
+            if (picutureCompressService.compressAndUpdate(view)) {
+                return true;
+            } else {
+                viewMapper.deletePhysically(view);
+            }
+        }
+
+        return false;
     }
 
     @Override
-    public boolean createView(View view) {
-//        if (viewMapper.createView(view)) {
-//            if (picutureCompressService.compressAndUpdate(view)) {
-//                return true;
-//            } else {
-//                viewMapper.deletePhysically(view);
-//            }
-//        }
+    public List<View> getViewListByProjectId(Integer projectId) {
 
-        return false;
+        return viewMapper.getViewListByProjectId(projectId);
+    }
+
+    @Override
+    public Integer deleteView(Integer viewId) {
+        return viewMapper.deleteView(viewId);
     }
 
 

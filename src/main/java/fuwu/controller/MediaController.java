@@ -18,6 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,6 +51,8 @@ public class MediaController {
     @Autowired
     private FtpService ftpService;
 
+    @Value("${ftpSizeMax}")
+    private Long ftpSizeMax ;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MediaController.class);
     private DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -64,6 +67,7 @@ public class MediaController {
      * @param
      * @return
      */
+
     @ResponseBody
     @RequestMapping(value = "/getMediaById", method = RequestMethod.GET)
     public void getMediaById(HttpServletResponse response, Integer mediaId) {
@@ -91,7 +95,7 @@ public class MediaController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/create")
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
     public JsonResult createMedia(HttpServletRequest request, Integer mediaType) {
 
         try {
@@ -113,6 +117,14 @@ public class MediaController {
         }
         return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
+    @ResponseBody
+    @RequestMapping(value = "/createText",method = RequestMethod.GET)
+    public JsonResult createText(String mediaText){
+        Media media=new Media(null,mediaText,null,1,0);
+        int successCount = mediaService.addMedia(media);
+        return successCount>0 ? JsonResultUtil.createSucess(mediaService.getMediaUrlByMediaId(media.getId()))
+                :JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+    }
 
 
     private boolean invalid(FileItem fileItem) {
@@ -121,7 +133,7 @@ public class MediaController {
 
     private List<FileItem> getFileListWithRequest(HttpServletRequest request) throws FileUploadException {
         ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setSizeMax(4194304);
+        upload.setSizeMax(ftpSizeMax);
         List<FileItem> items = upload.parseRequest(request);
         return items;
     }

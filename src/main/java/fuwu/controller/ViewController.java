@@ -7,20 +7,24 @@ import fuwu.bo.ViewDetail;
 import fuwu.commen.JsonResult;
 import fuwu.em.GlobalErrorEnum;
 import fuwu.em.ViewTypeEnum;
+import fuwu.mapper.ViewMapper;
 import fuwu.po.Media;
 import fuwu.po.View;
 import fuwu.service.ViewService;
 import fuwu.util.JsonPUtils;
 import fuwu.util.JsonResultUtil;
 import fuwu.util.ParamCheckUtil;
+import org.codehaus.jackson.annotate.JsonUnwrapped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +38,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/view")
 public class ViewController {
+    @Autowired
+    private ViewMapper viewMapper;
 
     @Autowired
     private ViewService viewService;
@@ -58,10 +64,10 @@ public class ViewController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public JsonResult createView(View view) {
 
-        if (ParamCheckUtil.checkParamsNotNull(view.getProjectId(),view.getViewName(),view.getMediaId(),view.getViewType())) {
+        if (!ParamCheckUtil.checkParamsNotNull(view.getProjectId(),view.getViewName(),view.getMediaId(),view.getViewType())) {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
         }
 
@@ -70,13 +76,49 @@ public class ViewController {
         }
 
 
-        if(viewService.createView(view)) {
+        try {
+            if(viewService.createView(view)) {
+                return JsonResultUtil.createSucess(view);
+            } else {
+                LOGGER.error("create view error {}",JSON.toJSON(view));
+                return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+
+
+    }
+    @ResponseBody
+    @RequestMapping(value = "/setMainView", method = RequestMethod.GET)
+    @Transactional
+    public JsonResult setMainView(Integer viewId){
+        View view= viewMapper.getViewByViewId(viewId);
+        viewMapper.cancelMainView(view.getProjectId());
+        if(viewMapper.setMainView(viewId)==1){
+            view.setViewType(1);
             return JsonResultUtil.createSucess(view);
-        } else {
-            LOGGER.error("create view error {}",JSON.toJSON(view));
+       }else {
+           LOGGER.error("设置主场景失败{}",JSON.toJSON(view));
+           return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
+       }
+    }
+    @ResponseBody
+    @RequestMapping(value = "/getViewListByProjectId", method = RequestMethod.GET)
+    public JsonResult getViewListByProjectId(Integer projectId){
+        List<View> viewList=viewService.getViewListByProjectId(projectId);
+        return JsonResultUtil.createSucess(viewList);
+    }
+    @ResponseBody
+    @RequestMapping(value = "/delete",method =RequestMethod.GET)
+    public JsonResult deleteView(Integer viewId){
+        if(viewService.deleteView(viewId)==1) {
+            return JsonResultUtil.createSucess(null);
+        }else {
+            LOGGER.error("删除场景失败，viewId=,{}",viewId);
             return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
-
     }
 
 

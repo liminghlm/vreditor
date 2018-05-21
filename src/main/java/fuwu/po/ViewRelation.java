@@ -1,6 +1,6 @@
 package fuwu.po;
 
-import com.alibaba.fastjson.annotation.JSONType;
+
 
 
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @Date: 2018/4/22 18:55
  * @Description:
  */
-@JSONType(ignores ={"viewId", "relationViewId"})
+
 public class ViewRelation implements Serializable{
     private Integer id;
 
