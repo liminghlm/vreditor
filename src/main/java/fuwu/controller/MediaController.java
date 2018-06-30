@@ -118,7 +118,7 @@ public class MediaController {
         return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
     @ResponseBody
-    @RequestMapping(value = "/createText",method = RequestMethod.GET)
+    @RequestMapping(value = "/createText",method = RequestMethod.POST)
     public JsonResult createText(String mediaText){
         Media media=new Media(null,mediaText,null,1,0);
         int successCount = mediaService.addMedia(media);
