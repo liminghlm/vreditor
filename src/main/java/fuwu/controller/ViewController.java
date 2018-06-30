@@ -54,12 +54,11 @@ public class ViewController {
      */
     @ResponseBody
     @RequestMapping(value = "/getViewDetailByViewId", method = RequestMethod.GET)
-    public String getViewDetailByViewId(Integer viewId,String callback) {
+    public JsonResult getViewDetailByViewId(Integer viewId,String callback) {
 
-        return JsonPUtils.makeJsonP(
-                JsonResultUtil.createSucess(viewService.getViewDetailByViewId(viewId)),
-                callback
-        );
+        return JsonResultUtil.createSucess(viewService.getViewDetailByViewId(viewId));
+
+
 
     }
 

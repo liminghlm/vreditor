@@ -297,7 +297,7 @@
   </dependencies>
 
   <build>
-    <finalName>CrawlerDemo</finalName>
+    <finalName>VREditor</finalName>
     <plugins>
 
       <plugin>

@@ -18,8 +18,7 @@
     </resultMap>
 
     <select id="getMainViewByProjectId" parameterType="Integer" resultMap="view">
-        SELECT * F
-        ROM view
+        SELECT * FROM view
         WHERE  view_type=1 AND deleted=0 AND  project_id = #{projectId}
     </select>
 
@@ -50,7 +49,7 @@
         id=#{viewId}
     </update>
     <update id="cancelMainView" parameterType="Integer">
-        update VIEW set view_type = 0 WHERE view_type=1 AND project_id=#{projectId}
+        update view set view_type = 0 WHERE view_type=1 AND project_id=#{projectId}
     </update>
     <update id="setMainView" parameterType="Integer">
         update view set  view_type=1  where id=#{viewId};
