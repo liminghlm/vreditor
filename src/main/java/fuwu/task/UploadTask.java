@@ -64,6 +64,7 @@ public class UploadTask implements Callable<Boolean>{
         } finally {
             try {
                 ftpClient.logout();
+                ftpClient.disconnect();
             }catch (Exception e) {
                 e.printStackTrace();
             }

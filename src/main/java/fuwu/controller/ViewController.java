@@ -71,7 +71,9 @@ public class ViewController {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
         }
 
-        if (view.getViewType().equals(ViewTypeEnum.MAIN_VIEW.getViewType()) && viewService.getMainViewByProjectId(view.getProjectId())!=null) {
+        View mainView = viewService.getMainViewByProjectId(view.getProjectId());
+
+        if (view.getViewType().equals(ViewTypeEnum.MAIN_VIEW.getViewType()) && (mainView==null || mainView.getId()==null)) {
             return JsonResultUtil.createError(GlobalErrorEnum.MAIN_VEW_CONFLICT);
         }
 

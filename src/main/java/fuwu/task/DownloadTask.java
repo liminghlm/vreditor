@@ -65,6 +65,7 @@ public class DownloadTask implements Callable<Boolean> {
                 ftpClient.completePendingCommand();
                 IOUtils.closeQuietly(bos);
                 ftpClient.logout();
+                ftpClient.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();
             }
