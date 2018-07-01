@@ -56,7 +56,6 @@ public class UploadTask implements Callable<Boolean>{
             ftpClient.storeFile(fileName, inputStream);
 
             inputStream.close();
-            ftpClient.logout();
             result = true;
         } catch (IOException e) {
             e.printStackTrace();

@@ -72,8 +72,7 @@ public class ViewController {
         }
 
         View mainView = viewService.getMainViewByProjectId(view.getProjectId());
-
-        if (view.getViewType().equals(ViewTypeEnum.MAIN_VIEW.getViewType()) && (mainView==null || mainView.getId()==null)) {
+        if (view.getViewType().equals(ViewTypeEnum.MAIN_VIEW.getViewType()) && mainView!=null) {
             return JsonResultUtil.createError(GlobalErrorEnum.MAIN_VEW_CONFLICT);
         }
 

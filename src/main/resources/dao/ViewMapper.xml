@@ -18,8 +18,8 @@
     </resultMap>
 
     <select id="getMainViewByProjectId" parameterType="Integer" resultMap="view">
-        SELECT * F
-        ROM view
+        SELECT *
+        from view
         WHERE  view_type=1 AND deleted=0 AND  project_id = #{projectId}
     </select>
 
