@@ -40,7 +40,7 @@ public class ViewRelationController {
 
     @ResponseBody
     @ForLog
-    @RequestMapping(value = "/geViewRelationListByProjectId", method = RequestMethod.GET)
+    @RequestMapping(value = "/geViewRelationListByProjectId", method = RequestMethod.POST)
     public JsonResult geViewRelationListByProjectId(Integer projectId) {
 
         if (!ParamCheckUtil.checkParamsNotNull(projectId)) {
@@ -57,7 +57,7 @@ public class ViewRelationController {
 
     @ResponseBody
     @ForLog
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResult deleteViewRelation(Integer viewRelationId) {
 
         if (!ParamCheckUtil.checkParamsNotNull(viewRelationId)) {
@@ -76,7 +76,7 @@ public class ViewRelationController {
 
     @ResponseBody
     @ForLog
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public JsonResult createView(ViewRelation viewRelation) {
 
         if (!ParamCheckUtil.checkParamsNotNull(viewRelation.getViewId(),viewRelation.getRelationViewId(),viewRelation.getViewRelation())

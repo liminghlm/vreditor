@@ -18,7 +18,9 @@
     </resultMap>
 
     <select id="getMainViewByProjectId" parameterType="Integer" resultMap="view">
+
         SELECT * FROM view
+
         WHERE  view_type=1 AND deleted=0 AND  project_id = #{projectId}
     </select>
 
@@ -58,6 +60,7 @@
         SELECT * FROM  view
         WHERE
         project_id=#{projectId}
+        AND deleted=0
     </select>
     <update id="deleteView" parameterType="Integer">
         UPDATE  view SET

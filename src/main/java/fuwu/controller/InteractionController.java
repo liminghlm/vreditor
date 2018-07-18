@@ -43,7 +43,7 @@ public class InteractionController {
     private ViewRelationService viewRelationService;
 
     @ResponseBody
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public JsonResult createInteraction(Interaction interaction,String mediaIdList) {
         if (!ParamCheckUtil.checkParamsNotNull(interaction.getInteractionPosition(),interaction.getViewId(),mediaIdList)) {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
@@ -78,7 +78,7 @@ public class InteractionController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResult deleteInteraction(Interaction interaction) {
         if (!ParamCheckUtil.checkParamsNotNull(interaction.getId())) {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
@@ -96,7 +96,7 @@ public class InteractionController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public JsonResult updateInteraction(Interaction interaction,String mediaIdList) {
         if (!ParamCheckUtil.checkParamsNotNull(interaction.getId())) {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
