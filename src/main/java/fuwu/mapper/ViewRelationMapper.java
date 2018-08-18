@@ -1,5 +1,6 @@
 package fuwu.mapper;
 
+import fuwu.bo.ViewRelationWithName;
 import fuwu.po.View;
 import fuwu.po.ViewRelation;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ViewRelationMapper {
     public List<ViewRelation> getViewRelationListByViewId(@Param("viewId") Integer viewId);
 
-    List<ViewRelation> getViewRelationListByProjectId(@Param("projectId")Integer projectId);
+    List<ViewRelationWithName> getViewRelationListByProjectId(@Param("projectId")Integer projectId);
 
     Boolean createViewRelation(ViewRelation viewRelation);
 

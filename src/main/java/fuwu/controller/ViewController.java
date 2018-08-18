@@ -1,6 +1,7 @@
 package fuwu.controller;
 
 import com.alibaba.fastjson.JSON;
+import fuwu.aop.ForLog;
 import fuwu.bo.RealInteraction;
 import fuwu.bo.RealViewRelation;
 import fuwu.bo.ViewDetail;
@@ -53,6 +54,7 @@ public class ViewController {
      * @return
      */
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getViewDetailByViewId", method = RequestMethod.GET)
     public JsonResult getViewDetailByViewId(Integer viewId,String callback) {
 
@@ -63,6 +65,7 @@ public class ViewController {
     }
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public JsonResult createView(View view) {
 
@@ -93,6 +96,7 @@ public class ViewController {
     @ResponseBody
     @RequestMapping(value = "/setMainView", method = RequestMethod.GET)
     @Transactional
+    @ForLog
     public JsonResult setMainView(Integer viewId){
         View view= viewMapper.getViewByViewId(viewId);
         viewMapper.cancelMainView(view.getProjectId());
@@ -104,13 +108,17 @@ public class ViewController {
            return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
        }
     }
+
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getViewListByProjectId", method = RequestMethod.GET)
     public JsonResult getViewListByProjectId(Integer projectId){
         List<View> viewList=viewService.getViewListByProjectId(projectId);
         return JsonResultUtil.createSucess(viewList);
     }
+
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/delete",method =RequestMethod.GET)
     public JsonResult deleteView(Integer viewId){
         if(viewService.deleteView(viewId)==1) {

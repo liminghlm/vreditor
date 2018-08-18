@@ -3,11 +3,15 @@ package fuwu.controller;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import fuwu.aop.ForLog;
+import fuwu.bo.RealInteraction;
 import fuwu.commen.JsonResult;
 import fuwu.em.GlobalErrorEnum;
 import fuwu.em.InteractionTypeEnum;
 import fuwu.mapper.InteractionMapper;
 import fuwu.mapper.MediaInteractionRelationMapper;
+import fuwu.mapper.MediaMapper;
+import fuwu.mapper.ViewMapper;
 import fuwu.po.Interaction;
 import fuwu.service.ViewRelationService;
 import fuwu.util.JsonResultUtil;
@@ -41,17 +45,20 @@ public class InteractionController {
     private MediaInteractionRelationMapper mediaInteractionRelationMapper;
     @Autowired
     private ViewRelationService viewRelationService;
+    @Autowired
+    private MediaMapper mediaMapper;
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public JsonResult createInteraction(Interaction interaction,String mediaIdList) {
-        if (!ParamCheckUtil.checkParamsNotNull(interaction.getInteractionPosition(),interaction.getViewId(),mediaIdList)) {
+    public JsonResult createInteraction(Interaction interaction,String mediaIds) {
+        if (!ParamCheckUtil.checkParamsNotNull(interaction.getInteractionPosition(),interaction.getViewId(), mediaIds)) {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
         }
 
 
         List<Integer> mediaIntList =
-        Lists.transform(Splitter.on(SEPERATOR).trimResults().omitEmptyStrings().splitToList(mediaIdList), new Function<String, Integer>() {
+        Lists.transform(Splitter.on(SEPERATOR).trimResults().omitEmptyStrings().splitToList(mediaIds), new Function<String, Integer>() {
             @Override
             public Integer apply(String s) {
                 return Integer.parseInt(s);
@@ -62,11 +69,16 @@ public class InteractionController {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
         }
 
-        interaction.setInteractionType(mediaIntList.size()>1 ? InteractionTypeEnum.BASE_INTERACTION.getInteractiontype() : InteractionTypeEnum.COMPLEXY_INTERACTION.getInteractiontype());
+        interaction.setInteractionType(mediaIntList.size()>1 ? InteractionTypeEnum.COMPLEXY_INTERACTION.getInteractiontype() : InteractionTypeEnum.BASE_INTERACTION.getInteractiontype());
 
         if (interactionMapper.createInteraction(interaction)>0) {
             if (mediaInteractionRelationMapper.batchInsertMediaInteractionRelation(interaction.getId(),mediaIntList)>0) {
-                return JsonResultUtil.createSucess(viewRelationService.getRealViewRelationListByViewId(interaction.getViewId()));
+                RealInteraction realInteraction = new RealInteraction(interactionMapper.getInterationById(interaction.getId()));
+                realInteraction.setMediaList(
+                       mediaMapper.getMediaListByInteractionId(interaction.getId())
+                );
+
+                return JsonResultUtil.createSucess(realInteraction);
             } else {
                 interactionMapper.deleteInteraction(interaction);
             }
@@ -78,6 +90,7 @@ public class InteractionController {
     }
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResult deleteInteraction(Interaction interaction) {
         if (!ParamCheckUtil.checkParamsNotNull(interaction.getId())) {
@@ -96,6 +109,7 @@ public class InteractionController {
 
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public JsonResult updateInteraction(Interaction interaction,String mediaIdList) {
         if (!ParamCheckUtil.checkParamsNotNull(interaction.getId())) {

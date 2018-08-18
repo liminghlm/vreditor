@@ -65,7 +65,7 @@ public class ProjectController {
     @RequestMapping(value = "/getViewDetailByViewId", method = RequestMethod.GET)
     public JsonResult getViewDetailByViewId(Integer viewId) {
         ViewDetail viewdetail = viewService.getViewDetailByViewId(viewId);
-        if(ParamCheckUtil.checkParamsNotNull(viewId)){
+        if(!ParamCheckUtil.checkParamsNotNull(viewId)){
             return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
         }
         return JsonResultUtil.createSucess(viewdetail);

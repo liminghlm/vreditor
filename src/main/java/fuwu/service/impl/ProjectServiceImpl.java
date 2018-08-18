@@ -24,7 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProjectCreateTime(new Date(System.currentTimeMillis()));
         project.setProjectUpdateTime(new Date(System.currentTimeMillis()));
         project.setDeleted(0);
-        project.setProjectState(1);
+        project.setProjectState(0);
         return projectMapper.addProject(project);
     }
 

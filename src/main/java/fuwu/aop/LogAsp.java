@@ -31,26 +31,18 @@ public class LogAsp  implements Ordered {
         Method method = null;
         String[] paramsNames =null;
 
-        String methodName = method.getName();
-
         if(si instanceof MethodSignature){
             method = ((MethodSignature)si).getMethod();
             paramsNames = ((MethodSignature)si).getParameterNames();
         }
 
-        if ( null != method) {
-            Object object = point.proceed();
-            ForLog forLog = method.getAnnotation(ForLog.class);
-            String value = forLog.value();
-            long end = System.currentTimeMillis();
-            logger.info("method {} with params {} values {} returned {} takes {} millSeconds",value,paramsNames,args, JSON.toJSON(object),end-start);
-            return object;
-        }else {
-            Object object = point.proceed();
-            long end = System.currentTimeMillis();
-            logger.info("{} unknown with params {} values {} returned {} takes {} millSeconds",methodName,paramsNames,args,JSON.toJSON(object),end-start);
-            return object;
-        }
+        Object object = point.proceed();
+        ForLog forLog = method.getAnnotation(ForLog.class);
+        String value = forLog.value();
+        long end = System.currentTimeMillis();
+        logger.info("method {} with params {} values {} returned {} takes {} millSeconds",method.getName(),paramsNames,args, JSON.toJSON(object),end-start);
+        return object;
+
 
     }
 

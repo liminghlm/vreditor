@@ -1,6 +1,7 @@
 package fuwu.mapper;
 
 import fuwu.po.Interaction;
+import fuwu.po.MediaInteractionRelation;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface MediaInteractionRelationMapper {
     Integer batchInsertMediaInteractionRelation(@Param("interactionId") Integer interactionId, @Param("mediaIntList") List<Integer> mediaIntList);
 
     Integer deleteByInteractionId( @Param("interactionId") Integer interactionId);
+
 }

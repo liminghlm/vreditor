@@ -2,6 +2,7 @@ package fuwu.mapper;
 
 import fuwu.po.Media;
 import org.apache.ibatis.annotations.Param;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
 
 import java.util.List;
 

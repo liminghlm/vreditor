@@ -21,6 +21,14 @@ view_id=#{viewId}
 
     </select>
 
+    <select id="getInterationById" resultMap="interation">
+        SELECT *
+        FROM interaction
+        WHERE
+        id=#{id}
+
+    </select>
+
 
     <insert id="createInteraction" parameterType="fuwu.po.Interaction" useGeneratedKeys="true" keyProperty="id">
           INSERT INTO interaction

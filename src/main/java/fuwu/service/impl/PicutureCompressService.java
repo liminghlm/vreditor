@@ -41,7 +41,7 @@ public class PicutureCompressService {
         String mediaName = media.getMediaName();
         File file=new File(localFilePath+mediaUrl);
         ftpService.downloadFtpFile(mediaUrl,new FileOutputStream(file));
-        String miniName= ImageUtil.getMiniImage(file,localFilePath,100,150,false);
+        String miniName= ImageUtil.getMiniImage(file,localFilePath,300,200,false);
         InputStream inputStream=new FileInputStream(localFilePath+miniName);
         miniName=ftpService.uploadFile(miniName,inputStream);
         Media miniMedia = new Media(null,miniName,null,6,0);

@@ -15,17 +15,33 @@
 
     </resultMap>
 
+
+    <resultMap id="viewRelationWithName" type="fuwu.bo.ViewRelationWithName">
+        <result column="id" property="id"/>
+        <result column="view_id" property="viewId"/>
+        <result column="relation_view_id" property="relationViewId"/>
+        <result column="view_relation" property="viewRelation"/>
+        <result column="view_interaction_position" property="viewInteractionPosition"/>
+        <result column="view_name" property="viewName"/>
+        <result column="relation_view_name" property="relationViewName"/>
+
+
+    </resultMap>
+
     <select id="getViewRelationListByViewId" resultMap="viewRelation">
         SELECT *
         FROM view_relation
         WHERE
         view_id=#{viewId}
-
+        or
+        relation_view_id=#{viewId}
     </select>
 
-    <select id="getViewRelationListByProjectId" resultMap="viewRelation">
+    <select id="getViewRelationListByProjectId" resultMap="viewRelationWithName">
         SELECT
-        vr.*
+        vr.*,
+        v1.view_name view_name,
+        v2.view_name relation_view_name
         FROM
         view_relation vr
         left join

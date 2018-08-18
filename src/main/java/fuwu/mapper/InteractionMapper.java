@@ -18,4 +18,6 @@ public interface InteractionMapper {
     Integer deleteInteraction(Interaction interaction);
 
     Integer updateInteraction(Interaction interaction);
+
+    Interaction getInterationById(@Param("id") Integer id);
 }

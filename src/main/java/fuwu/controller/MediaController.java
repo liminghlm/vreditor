@@ -1,5 +1,6 @@
 package fuwu.controller;
 
+import fuwu.aop.ForLog;
 import fuwu.commen.JsonResult;
 import fuwu.em.GlobalErrorEnum;
 import fuwu.po.Media;
@@ -69,6 +70,7 @@ public class MediaController {
      */
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/getMediaById", method = RequestMethod.GET)
     public void getMediaById(HttpServletResponse response, Integer mediaId) {
         Media media = mediaService.getMediaUrlByMediaId(mediaId);
@@ -95,11 +97,12 @@ public class MediaController {
     }
 
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public JsonResult createMedia(HttpServletRequest request, Integer mediaType) {
 
         try {
-            List<FileItem> items = getFileListWithRequest(request);
+             List<FileItem> items = getFileListWithRequest(request);
             for(FileItem fileItem : items) {
             if(invalid(fileItem))
                 continue;
@@ -118,6 +121,7 @@ public class MediaController {
         return JsonResultUtil.createError(GlobalErrorEnum.ERROR);
     }
     @ResponseBody
+    @ForLog
     @RequestMapping(value = "/createText",method = RequestMethod.POST)
     public JsonResult createText(String mediaText){
         Media media=new Media(null,mediaText,null,1,0);
