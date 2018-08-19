@@ -15,7 +15,7 @@
 
     <select id="getMediaListByInteractionId" parameterType="Integer" resultMap="media">
         SELECT
-        a.id,a.media_url,a.media_type,a.deleted
+        a.id,a.media_url,a.media_type,a.deleted,a.media_name
         FROM media a , media_interaction_relation b
          WHERE
          a.id=b.media_id

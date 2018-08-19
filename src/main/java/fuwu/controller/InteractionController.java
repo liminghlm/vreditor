@@ -142,6 +142,23 @@ public class InteractionController {
     }
 
 
+    @ResponseBody
+    @ForLog
+    @RequestMapping(value = "/getRealInteractionById", method = RequestMethod.GET)
+    public JsonResult getInteractionWithMedia(Integer interactionId) {
+        if (!ParamCheckUtil.checkParamsNotNull(interactionId)) {
+            return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
+        }
+
+        RealInteraction realInteraction = new RealInteraction(interactionMapper.getInterationById(interactionId));
+        realInteraction.setMediaList(
+                mediaMapper.getMediaListByInteractionId(interactionId)
+        );
+
+
+        return JsonResultUtil.createSucess(realInteraction);
+    }
+
 
 }
 

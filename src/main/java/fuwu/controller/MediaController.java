@@ -109,7 +109,7 @@ public class MediaController {
             String fileName=fileItem.getName();
             InputStream inputStream = fileItem.getInputStream();
             String realFileName = ftpService.uploadFile(fileName, inputStream);
-            Media media = new Media(null,realFileName,null,mediaType,0);
+            Media media = new Media(null,realFileName,fileName,mediaType,0);
             int successCount = mediaService.addMedia(media);
 
             return successCount>0 ? JsonResultUtil.createSucess(mediaService.getMediaUrlByMediaId(media.getId()))
