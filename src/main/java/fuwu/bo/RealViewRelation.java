@@ -12,6 +12,8 @@ public class RealViewRelation extends ViewRelation {
     private String realViewRelation;
     private Integer realRelationViewId;
 
+    private String realRelationViewName;
+
     public RealViewRelation() {
     }
 
@@ -51,5 +53,13 @@ public class RealViewRelation extends ViewRelation {
         return viewId.equals(realViewRelation.getViewId())
                 ? realViewRelation.getRelationViewId()
                 : realViewRelation.getViewId();
+    }
+
+    public String getRealRelationViewName() {
+        return realRelationViewName;
+    }
+
+    public void setRealRelationViewName(String realRelationViewName) {
+        this.realRelationViewName = realRelationViewName;
     }
 }

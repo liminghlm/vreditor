@@ -3,6 +3,7 @@ package fuwu.service.impl;
 import fuwu.bo.RealViewRelation;
 import fuwu.bo.ViewRelationWithName;
 import fuwu.controller.ViewRelationController;
+import fuwu.mapper.ViewMapper;
 import fuwu.mapper.ViewRelationMapper;
 import fuwu.po.View;
 import fuwu.po.ViewRelation;
@@ -26,6 +27,8 @@ public class ViewRelationServiceImpl implements ViewRelationService {
 
     @Autowired
     private ViewRelationMapper viewRelationMapper;
+    @Autowired
+    private ViewMapper viewMapper;
     @Override
     public List<RealViewRelation> getRealViewRelationListByViewId(Integer viewId) {
         //todo ViewRelation to RealViewRelation
@@ -34,7 +37,11 @@ public class ViewRelationServiceImpl implements ViewRelationService {
         for (ViewRelation viewRelation: viewRelationList){
             RealViewRelation realViewRelation=new RealViewRelation(viewRelation);
             realViewRelation.setRealViewRelation(RealViewRelation.makeRealViewRelation(realViewRelation,viewId));
-            realViewRelation.setRealRelationViewId(RealViewRelation.makeRealRelationViewId(realViewRelation,viewId));
+
+            Integer realRelationViewId = RealViewRelation.makeRealRelationViewId(realViewRelation,viewId);
+            realViewRelation.setRealRelationViewId(realRelationViewId);
+            realViewRelation.setRealRelationViewName(viewMapper.getViewByViewId(realRelationViewId).getViewName());
+
             realViewRelationList.add(realViewRelation);
         }
         return realViewRelationList;
