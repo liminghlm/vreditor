@@ -13,6 +13,7 @@ import fuwu.mapper.MediaInteractionRelationMapper;
 import fuwu.mapper.MediaMapper;
 import fuwu.mapper.ViewMapper;
 import fuwu.po.Interaction;
+import fuwu.po.Media;
 import fuwu.service.ViewRelationService;
 import fuwu.util.JsonResultUtil;
 import fuwu.util.ParamCheckUtil;
@@ -24,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LJW on 2018/4/20 - 11:59
@@ -69,6 +73,7 @@ public class InteractionController {
             return JsonResultUtil.createError(GlobalErrorEnum.PARAM_NULL_ERROR);
         }
 
+        mediaIntList = deleteDuplicateMedia(mediaIntList);
         interaction.setInteractionType(mediaIntList.size()>1 ? InteractionTypeEnum.COMPLEXY_INTERACTION.getInteractiontype() : InteractionTypeEnum.BASE_INTERACTION.getInteractiontype());
 
         if (interactionMapper.createInteraction(interaction)>0) {
@@ -129,6 +134,8 @@ public class InteractionController {
         }
 
 
+        mediaIntList = deleteDuplicateMedia(mediaIntList);
+
         interaction.setInteractionType(mediaIntList.size()>1 ? InteractionTypeEnum.BASE_INTERACTION.getInteractiontype() : InteractionTypeEnum.COMPLEXY_INTERACTION.getInteractiontype());
         interactionMapper.updateInteraction(interaction);
 
@@ -139,6 +146,29 @@ public class InteractionController {
 
 
         return JsonResultUtil.createSucess(viewRelationService.getRealViewRelationListByViewId(interaction.getViewId()));
+    }
+
+    private List<Integer> deleteDuplicateMedia(List<Integer> mediaIntList) {
+
+        List<Media> mediaList = mediaMapper.getMediaListByIdList(mediaIntList);
+
+        Map<Integer,Media> mediaMap = new HashMap<>();
+
+        for(Media media : mediaList) {
+            Integer curMediaType = media.getMediaType();
+            if(!mediaMap.containsKey(curMediaType) || (mediaMap.containsKey(curMediaType)) && media.getId()>mediaMap.get(curMediaType).getId()) {
+                mediaMap.put(media.getMediaType(),media);
+            }
+        }
+
+        List<Integer> resultList = new ArrayList<>();
+
+        for(Media media : mediaMap.values()) {
+            resultList.add(media.getId());
+        }
+
+        return resultList;
+
     }
 
 

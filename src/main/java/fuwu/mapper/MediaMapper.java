@@ -18,4 +18,5 @@ public interface MediaMapper {
 
     public Integer addMedia(Media media);
 
+    List<Media> getMediaListByIdList(@Param("mediaIntList") List<Integer> mediaIntList);
 }

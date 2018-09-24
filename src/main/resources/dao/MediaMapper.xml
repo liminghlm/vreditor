@@ -26,6 +26,21 @@
     <select id="getMediaUrlByMediaId" parameterType="Integer"  resultMap="media">
         SELECT * FROM media WHERE id=#{mediaId}
     </select>
+
+    <select id="getMediaListByIdList" parameterType="java.util.List" resultMap="media">
+        SELECT
+        *
+        FROM media
+        WHERE
+        id
+        in
+        <foreach collection="mediaIntList" index="index" item="item" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+    </select>
+
+
+
     <insert id="addMedia"  keyProperty="id" useGeneratedKeys="true" >
 INSERT INTO media(media_url,media_type,deleted,media_name) VALUES (#{mediaUrl},#{mediaType},0,#{mediaName})
     </insert>
