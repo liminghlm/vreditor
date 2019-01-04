@@ -35,7 +35,7 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping("/interaction")
+@RequestMapping("/vrBk/interaction")
 public class InteractionController {
 
 

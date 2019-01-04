@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping("/viewRelation")
+@RequestMapping("/vrBk/viewRelation")
 public class ViewRelationController {
 
     @Autowired

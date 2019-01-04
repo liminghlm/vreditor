@@ -37,7 +37,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/media")
+@RequestMapping("/vrBk/media")
 public class MediaController {
 
     @Autowired

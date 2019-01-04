@@ -9,7 +9,8 @@ public enum GlobalErrorEnum {
     SUCESS(0,"操作成功"),
     ERROR(1,"操作失败"),
     PARAM_NULL_ERROR(3,"参数不合法"),
-    MAIN_VEW_CONFLICT(4,"主场景已存在");
+    MAIN_VEW_CONFLICT(4,"主场景已存在"),
+    MAIN_VIEW_EXSIST_ERROR(5,"发布失败，主场景不存在！");
 
 
     private Integer errorCode;

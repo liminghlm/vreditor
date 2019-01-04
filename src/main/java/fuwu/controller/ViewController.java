@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/view")
+@RequestMapping("/vrBk/view")
 public class ViewController {
     @Autowired
     private ViewMapper viewMapper;

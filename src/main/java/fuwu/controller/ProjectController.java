@@ -28,7 +28,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/vrBk/project")
 public class ProjectController {
 
     @Autowired
@@ -161,6 +161,8 @@ public class ProjectController {
     @ForLog
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public JsonResult publishProject(Integer projectId) {
+        if(viewService.getMainViewByProjectId(projectId)==null)
+            return JsonResultUtil.createError(GlobalErrorEnum.MAIN_VIEW_EXSIST_ERROR);
 
         if(projectService.publishProject(projectId)) {
             return JsonResultUtil.createSucess(null);
